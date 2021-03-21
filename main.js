@@ -1,11 +1,10 @@
-const axios = require('axios');
 const { JSDOM } = require('jsdom')
-var fs = require('fs');
 
 class FeatureType{
-    constructor(addToStack=true,collection=false){
+    constructor(addToStack=true,collection=false, attributes = {}){
         this.addToStack = addToStack
         this.collection = collection
+        this.attributes = attributes
     }
 }
 
@@ -13,44 +12,10 @@ class Web2DocScraper{
     constructor(){
         //Any HTML element matching the child type will become a document node
 
-        this.defaultAttributes = {
-            "tagName":"tagName"
-        }
-
-        this.textElementAttributes = {
-            ...this.defaultAttributes,
-            "textContent":"textContent"
-        }
-
-        this.linkElementAttributes = {
-            ...this.defaultAttributes,
-            "href":"link",
-            "src":"link"
-        }
-
-        this.featureTypes = {
-            "HTML":{addToStack:true,collection:"Rooms"},
-            "CENTER":{addToStack:true,collection:"Rooms"},
-            "NAV":{addToStack:true,collection:"Rooms"},
-            "BODY":{addToStack:true,collection:"Rooms"},
-            "DIV":{addToStack:true,collection:"Rooms"},
-            "SECTION":{addToStack:true,collection:"Rooms"},
-            "SPAN":{addToStack:true,collection:"Rooms"},
-            "UL":{addToStack:true,collection:"Lists"},
-            "LI":{addToStack:true,collection:"Lists"},
-            "TBODY":{addToStack:true,collection:"Tables"},
-            "TABLE":{addToStack:true,collection:"Tables"},
-            "TR":{addToStack:true,collection:"Tables"},
-            "TD":{addToStack:true,collection:"Tables"},
-            "B":{addToStack:true,collection:"Rooms",attributes:this.textElementAttributes},
-            "A":{addToStack:false,collection:"Warps",attributes:this.linkElementAttributes},
-            "P":{addToStack:false,collection:"Prog",attributes:this.textElementAttributes},
-            "H1":{addToStack:false,collection:"Prog",attributes:this.textElementAttributes},
-            "H2":{addToStack:false,collection:"Prog",attributes:this.textElementAttributes},
-            "H3":{addToStack:false,collection:"Prog",attributes:this.textElementAttributes},
-            "H4":{addToStack:false,collection:"Prog",attributes:this.textElementAttributes},
-            "IMG":{addToStack:false,collection:"Images",attributes:this.linkElementAttributes},
-        }
+        this.featureTypes = {}
+    }
+    addFeatureType(htmlTag,featureType){
+        this.featureTypes[htmlTag] = featureType
     }
     addChildrenToStack(stack,element,node){
         for(let child of element.children){
@@ -78,18 +43,17 @@ class Web2DocScraper{
     }
     addPropertiesToNode(node,element){
         let featureType = this.featureTypes[element.tagName]
-        let attributeTypes = this.defaultAttributes
         if(featureType && featureType.attributes){
-            attributeTypes = featureType.attributes
-        }
-        for(let key in element){
-            if(attributeTypes[key]){
-                let keyValue = element[key]
-                if(typeof keyValue == "string"){
-                    keyValue = keyValue.trim()
-                }
-                if(keyValue != ""){
-                    node[attributeTypes[key]] = keyValue
+            let attributeTypes = featureType.attributes
+            for(let key in element){
+                if(attributeTypes[key]){
+                    let keyValue = element[key]
+                    if(typeof keyValue == "string"){
+                        keyValue = keyValue.trim()
+                    }
+                    if(keyValue != ""){
+                        node[attributeTypes[key]] = keyValue
+                    }
                 }
             }
         }
@@ -116,11 +80,16 @@ class Web2DocScraper{
         }
         return output
     }
-    async scrape(url){
-        let dom = await JSDOM.fromURL(url)
+    async scrape(url,fromFile=false){
+        let dom;
+        if(fromFile){
+            dom = await JSDOM.fromFile(url)
+        }else{
+            dom = await JSDOM.fromURL(url)
+        }
         let output = this.iterateOverDOMStack([dom.window.document])
         return output
     }
 }
 
-module.exports = Web2DocScraper
+module.exports = {Web2DocScraper,FeatureType}
