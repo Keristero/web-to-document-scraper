@@ -1,4 +1,5 @@
 const { JSDOM } = require('jsdom')
+const TrimTree = require('./TrimTree')
 
 class FeatureType{
     constructor(addToStack=true,collection=false, attributes = {}){
@@ -93,7 +94,14 @@ class Web2DocScraper{
         }
         return output
     }
-    async scrape(url,fromFile=false){
+    /**
+     * 
+     * @param {string} url path to website or file to scrape
+     * @param {boolean} fromFile flag to indicate if this is a file
+     * @param {boolean} trim flag to indicate if we should trim unimportant nodes from the tree
+     * @returns 
+     */
+    async scrape(url,fromFile=false,trim=true){
         let dom;
         if(fromFile){
             dom = await JSDOM.fromFile(url)
@@ -101,6 +109,10 @@ class Web2DocScraper{
             dom = await JSDOM.fromURL(url)
         }
         let output = this.iterateOverDOMStack([dom.window.document])
+
+        if(trim){
+            output = TrimTree(output)
+        }
         return output
     }
 }
