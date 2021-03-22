@@ -6,11 +6,9 @@ const { FeatureType, Web2DocScraper } = require('./main.js')
 const fs = require('fs');
 let testScraper = new Web2DocScraper()
 
-
 async function test() {
-    //Add a feature for "Children", this will be any containerish tag
-    //By specifying true here we are specifying that we should add all of these
-    //tags to the stack for recursive processing
+    //Add a feature for "Children", this will be any container type TAG, we add any of these tags to
+    //the stack to create a deeply nested document
     let ChildFeature = new FeatureType(true, "children")
     let childTags = ["HTML", "CENTER", "NAV", "BODY", "DIV", "SECTION", "SPAN", "UL", "LI", "TBODY", "TABLE", "TR", "TD", "B"]
     for(let tag of childTags){
@@ -58,7 +56,30 @@ test()
         <a href="index.html" style="color:grey">DEN</a>
         <a href="index.html" style="color:yellow">YUMNET</a>
         <a href="index.html" style="color:purple">WWW</a>
-        <div></div>
+        <div>
+            <div>
+                <div>
+                    <p>The div below me is pointless!</p>
+                    <div>
+                        <div>
+                            <div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div style="background-color:blueviolet">
         <a href="index.html">Hey</a>
@@ -78,66 +99,66 @@ test()
     "children": [
       {
         "features": {
+          "text": [
+            {
+              "textContent": "BIG HEADING RAWR"
+            },
+            {
+              "textContent": "Hi, this is a paragraph"
+            }
+          ],
           "children": [
             {
               "features": {
-                "text": [
+                "links": [
                   {
-                    "textContent": "BIG HEADING RAWR"
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "ACDC"
                   },
                   {
-                    "textContent": "Hi, this is a paragraph"
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "DEN"
+                  },
+                  {
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "YUMNET"
+                  },
+                  {
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "WWW"
                   }
                 ],
                 "children": [
                   {
                     "features": {
-                      "links": [
+                      "text": [
                         {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "ACDC"
-                        },
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "DEN"
-                        },
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "YUMNET"
-                        },
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "WWW"
-                        }
-                      ],
-                      "children": [
-                        {
-                          "features": {}
+                          "textContent": "The div below me is pointless!"
                         }
                       ]
                     }
+                  }
+                ]
+              }
+            },
+            {
+              "features": {
+                "links": [
+                  {
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "Hey"
                   },
                   {
-                    "features": {
-                      "links": [
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "Hey"
-                        },
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "How"
-                        },
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "Are"
-                        },
-                        {
-                          "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                          "textContent": "You"
-                        }
-                      ]
-                    }
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "How"
+                  },
+                  {
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "Are"
+                  },
+                  {
+                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+                    "textContent": "You"
                   }
                 ]
               }
