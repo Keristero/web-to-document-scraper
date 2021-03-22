@@ -27,7 +27,7 @@ async function test() {
     testScraper.addFeatureType("IMG", ImageFeature)
     
 
-    let res = await testScraper.scrape('./index.html',true)
+    let res = await testScraper.scrape('https://en.wikipedia.org/wiki/Main_Page')
     fs.writeFileSync('./output.json', JSON.stringify(res, null, 2))
 }
 test()

@@ -18,23 +18,34 @@ class Web2DocScraper{
         this.featureTypes[htmlTag] = featureType
     }
     addChildrenToStack(stack,element,node){
+        let hasKids = false
         for(let child of element.children){
             if(this.featureTypes[child.tagName]){
                 let collection = this.featureTypes[child.tagName].collection
                 let addToStack = this.featureTypes[child.tagName].addToStack
+                hasKids = true
                 if(addToStack){
                     child.superNode = node
                     stack.push(child)
                 }else{
                     let featureNode = {}
                     this.addPropertiesToNode(featureNode,child)
-                    this.addFeature(node,collection,featureNode)
+                    this.addFeature(node,collection,featureNode,hasKids)
                 }
             }
         }
+        return hasKids
     }
-    addFeature(node,collection,featureNode){
+    addFeature(node,collection,featureNode,hasKids){
         if(collection){
+            if(!hasKids){
+                if(Object.keys(featureNode).length == 0){
+                    return
+                }
+            }
+            if(!node.features){
+                node.features = {}
+            }
             if(!node.features[collection]){
                 node.features[collection] = []
             }
@@ -63,18 +74,20 @@ class Web2DocScraper{
         let firstNode = true
         while(stack.length > 0){
             var element = stack.shift()
-            var node = {features:{}}
+            var node = {}
             if(firstNode){
                 output = node
                 firstNode = false
             }
             this.addPropertiesToNode(node,element)
-            this.addChildrenToStack(stack,element,node)
+            let hasKids = this.addChildrenToStack(stack,element,node)
+
+            //Add this node to it's parents children
             let superNode = element.superNode
             if(superNode != undefined){
                 if(this.featureTypes[element.tagName]){
                     let collection = this.featureTypes[element.tagName].collection
-                    this.addFeature(superNode,collection,node)
+                    this.addFeature(superNode,collection,node,hasKids)
                 }
             }
         }
