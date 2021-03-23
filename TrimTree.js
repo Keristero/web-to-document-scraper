@@ -68,9 +68,10 @@ function TrimTree(tree,childCollectionName="children"){
                 if(node.parent.features.children.length == 0){
                     //If there are now no children, delete the children array
                     delete node.parent.features.children
+                    stack.push(node.parent)
                 }
                 //trimmedNodes++
-                stack.push(node.parent)
+                //stack.push(node.parent)
             }
         }
     }

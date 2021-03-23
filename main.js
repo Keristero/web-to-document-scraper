@@ -1,8 +1,16 @@
 const { JSDOM } = require('jsdom')
 const TrimTree = require('./TrimTree')
 
+class AttributeType{
+    constructor(htmlAttribute,documentName,required=false,styleName){
+        this.htmlAttribute = htmlAttribute
+        this.documentName = documentName
+        this.required = required
+        this.styleName = styleName
+    }
+}
 class FeatureType{
-    constructor(addToStack=true,collection=false, attributes = {}){
+    constructor(addToStack=true,collection=false, attributes = []){
         this.addToStack = addToStack
         this.collection = collection
         this.attributes = attributes
@@ -14,24 +22,27 @@ class Web2DocScraper{
         //Any HTML element matching the child type will become a document node
 
         this.featureTypes = {}
+        this.window = null
     }
     addFeatureType(htmlTag,featureType){
         this.featureTypes[htmlTag] = featureType
     }
     addChildrenToStack(stack,element,node){
         let hasKids = false
-        for(let child of element.children){
-            if(this.featureTypes[child.tagName]){
-                let collection = this.featureTypes[child.tagName].collection
-                let addToStack = this.featureTypes[child.tagName].addToStack
+        for(let childElement of element.children){
+            if(this.featureTypes[childElement.tagName]){
+                let collection = this.featureTypes[childElement.tagName].collection
+                let addToStack = this.featureTypes[childElement.tagName].addToStack
                 hasKids = true
                 if(addToStack){
-                    child.superNode = node
-                    stack.push(child)
+                    childElement.superNode = node
+                    stack.push(childElement)
                 }else{
                     let featureNode = {}
-                    this.addPropertiesToNode(featureNode,child)
-                    this.addFeature(node,collection,featureNode,hasKids)
+                    let allRequirementsMet = this.addPropertiesToNode(featureNode,childElement)
+                    if(allRequirementsMet){
+                        this.addFeature(node,collection,featureNode,hasKids)
+                    }
                 }
             }
         }
@@ -55,20 +66,33 @@ class Web2DocScraper{
     }
     addPropertiesToNode(node,element){
         let featureType = this.featureTypes[element.tagName]
+        let styleInfo = this.window.getComputedStyle(element)
+        let allRequirementsMet = true
         if(featureType && featureType.attributes){
-            let attributeTypes = featureType.attributes
-            for(let key in element){
-                if(attributeTypes[key]){
-                    let keyValue = element[key]
-                    if(typeof keyValue == "string"){
-                        keyValue = keyValue.trim()
-                    }
-                    if(keyValue != ""){
-                        node[attributeTypes[key]] = keyValue
+            for(let attribute of featureType.attributes){
+                let attributeTag = attribute.htmlAttribute
+
+                let value;
+
+                if(attribute.styleName){
+                    value = styleInfo.getPropertyValue(attribute.styleName)
+                }else{
+                    value = element[attributeTag]
+                }
+
+                if(typeof value == "string"){
+                    value = value.trim()
+                }
+                if(value){
+                    node[attribute.documentName] = value
+                }else{
+                    if(attribute.required){
+                        allRequirementsMet = false
                     }
                 }
             }
         }
+        return allRequirementsMet
     }
     iterateOverDOMStack(stack){
         let output;
@@ -108,7 +132,8 @@ class Web2DocScraper{
         }else{
             dom = await JSDOM.fromURL(url)
         }
-        let output = this.iterateOverDOMStack([dom.window.document])
+        this.window = dom.window
+        let output = this.iterateOverDOMStack([dom.window.document.body])
 
         if(trim){
             output = TrimTree(output)
@@ -117,4 +142,4 @@ class Web2DocScraper{
     }
 }
 
-module.exports = {Web2DocScraper,FeatureType}
+module.exports = {Web2DocScraper,FeatureType,AttributeType}

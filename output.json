@@ -1,71 +1,66 @@
 {
+  "background-color": "black",
   "features": {
+    "text": [
+      {
+        "text": "BIG HEADING RAWR"
+      }
+    ],
     "children": [
       {
+        "text": "Hi, this is a paragraph",
+        "color": "red"
+      },
+      {
+        "background-color": "aqua",
         "features": {
-          "text": [
+          "links": [
             {
-              "textContent": "BIG HEADING RAWR"
+              "text": "ACDC",
+              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+              "color": "green"
             },
             {
-              "textContent": "Hi, this is a paragraph"
+              "text": "DEN",
+              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+              "color": "grey"
+            },
+            {
+              "text": "YUMNET",
+              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+              "color": "yellow"
+            },
+            {
+              "text": "WWW",
+              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
+              "color": "purple"
             }
           ],
           "children": [
             {
               "features": {
-                "links": [
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "ACDC"
-                  },
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "DEN"
-                  },
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "YUMNET"
-                  },
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "WWW"
-                  }
-                ],
                 "children": [
                   {
-                    "features": {
-                      "text": [
-                        {
-                          "textContent": "The div below me is pointless!"
-                        }
-                      ]
-                    }
+                    "text": "The div below me is pointless!",
+                    "color": "red"
                   }
                 ]
               }
+            }
+          ]
+        }
+      },
+      {
+        "background-color": "blueviolet",
+        "features": {
+          "links": [
+            {
+              "text": "Hey",
+              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html"
             },
             {
-              "features": {
-                "links": [
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "Hey"
-                  },
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "How"
-                  },
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "Are"
-                  },
-                  {
-                    "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-                    "textContent": "You"
-                  }
-                ]
-              }
+              "text": "You",
+              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html"
             }
           ]
         }
