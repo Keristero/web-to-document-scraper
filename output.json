@@ -1,66 +1,310 @@
 {
-  "background-color": "black",
   "features": {
-    "text": [
-      {
-        "text": "BIG HEADING RAWR"
-      }
-    ],
     "children": [
       {
-        "text": "Hi, this is a paragraph",
-        "color": "red"
-      },
-      {
-        "background-color": "aqua",
         "features": {
-          "links": [
-            {
-              "text": "ACDC",
-              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-              "color": "green"
-            },
-            {
-              "text": "DEN",
-              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-              "color": "grey"
-            },
-            {
-              "text": "YUMNET",
-              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-              "color": "yellow"
-            },
-            {
-              "text": "WWW",
-              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html",
-              "color": "purple"
-            }
-          ],
           "children": [
+            {
+              "features": {
+                "links": [
+                  {
+                    "text": "Close",
+                    "link": "javascript:;"
+                  }
+                ]
+              }
+            },
             {
               "features": {
                 "children": [
                   {
-                    "text": "The div below me is pointless!",
-                    "color": "red"
+                    "features": {
+                      "children": [
+                        {
+                          "features": {
+                            "links": [
+                              {
+                                "text": "AliExpressSmarter Shopping, Better Living!",
+                                "link": "https://www.aliexpress.com/"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "features": {
+                      "links": [
+                        {
+                          "text": "aro 29",
+                          "link": "https://www.aliexpress.com/w/wholesale-aro-29.html"
+                        },
+                        {
+                          "text": "apple",
+                          "link": "https://www.aliexpress.com/w/wholesale-apple.html"
+                        },
+                        {
+                          "text": "oppo",
+                          "link": "https://www.aliexpress.com/w/wholesale-oppo.html"
+                        },
+                        {
+                          "text": "fringe jacket",
+                          "link": "https://www.aliexpress.com/w/wholesale-fringe-jacket.html"
+                        },
+                        {
+                          "text": "audi a6 c7",
+                          "link": "https://www.aliexpress.com/w/wholesale-audi-a6-c7.html"
+                        },
+                        {
+                          "text": "bts dynamite",
+                          "link": "https://www.aliexpress.com/w/wholesale-bts-dynamite.html"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "features": {
+                      "links": [
+                        {
+                          "text": "0",
+                          "link": "https://shoppingcart.aliexpress.com/shopcart/shopcartDetail.htm"
+                        }
+                      ]
+                    }
                   }
                 ]
               }
-            }
-          ]
-        }
-      },
-      {
-        "background-color": "blueviolet",
-        "features": {
-          "links": [
-            {
-              "text": "Hey",
-              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html"
             },
             {
-              "text": "You",
-              "link": "file:///home/jn1mm0cool/repos/web-to-document-scraper/index.html"
+              "features": {
+                "children": [
+                  {
+                    "features": {
+                      "links": [
+                        {
+                          "text": "Cookie Preferences",
+                          "link": "https://sale.aliexpress.com/cookie-setting.htm"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "features": {
+                      "children": [
+                        {
+                          "features": {
+                            "links": [
+                              {
+                                "text": "Buyer Protection",
+                                "link": "https://sale.aliexpress.com/v8Yr8f629D.htm"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "features": {
+                            "links": [
+                              {
+                                "text": "App",
+                                "link": "https://sale.aliexpress.com/download_app_guide.htm"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "features": {
+                            "children": [
+                              {
+                                "features": {
+                                  "links": [
+                                    {
+                                      "text": "Customer Service",
+                                      "link": "https://service.aliexpress.com/page/home?pageId=17&language=en"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "features": {
+                                  "links": [
+                                    {
+                                      "text": "Disputes & Reports",
+                                      "link": "https://report.aliexpress.com/"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "features": {
+                                  "links": [
+                                    {
+                                      "text": "Report IPR infringement",
+                                      "link": "https://ipp.alibabagroup.com/index.htm"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "features": {
+                      "children": [
+                        {
+                          "features": {
+                            "links": [
+                              {
+                                "text": "Cart",
+                                "link": "https://shoppingcart.aliexpress.com/shopcart/shopcartDetail.htm"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "features": {
+                            "links": [
+                              {
+                                "text": "Wish List",
+                                "link": "https://my.aliexpress.com/wishlist/wish_list_product_list.htm"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "features": {
+                            "children": [
+                              {
+                                "features": {
+                                  "links": [
+                                    {
+                                      "text": "Account",
+                                      "link": "javascript:;"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "features": {
+                                  "children": [
+                                    {
+                                      "features": {
+                                        "children": [
+                                          {
+                                            "text": "Welcome to AliExpress!"
+                                          },
+                                          {
+                                            "text": "Sign Out",
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "Sign Out",
+                                                  "link": "https://login.aliexpress.com/xman/xlogout.htm"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "text": "Join Sign in",
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "Join",
+                                                  "link": "javascript:;"
+                                                },
+                                                {
+                                                  "text": "Sign in",
+                                                  "link": "javascript:;"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "text": "Welcome back"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "features": {
+                                        "children": [
+                                          {
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "My Orders",
+                                                  "link": "https://trade.aliexpress.com/orderList.htm?tracelog=ws_topbar"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "Message Center",
+                                                  "link": "https://msg.aliexpress.com/?tracelog=ws_topbar"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "Wish List",
+                                                  "link": "https://my.aliexpress.com/wishlist/wish_list_product_list.htm"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "My Favorite Stores",
+                                                  "link": "https://my.aliexpress.com/wishlist/wish_list_store_list.htm"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "My Coupons",
+                                                  "link": "https://coupon.aliexpress.com/buyer/coupon/listView.htm"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "features": {
+                                              "links": [
+                                                {
+                                                  "text": "Invite friends to give US $24",
+                                                  "link": "https://campaign.aliexpress.com/wow/gcp/old-with-new/index?_addShare=no"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

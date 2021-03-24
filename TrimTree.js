@@ -4,7 +4,7 @@ function TrimTree(tree,childCollectionName="children"){
     //Give every node an association to it's parent
     while(stack.length > 0){
         let node = stack.shift()
-        let children = node?.features?.children
+        let children = node?.features?.[childCollectionName]
         if(!children){
             continue
         }
@@ -14,11 +14,11 @@ function TrimTree(tree,childCollectionName="children"){
         }
     }
 
-    //Remove all parent associations, and remove unwanted nodes
+    //remove unwanted nodes
     stack = [tree]
     while(stack.length > 0){
         let node = stack.shift()
-        let children = node?.features?.children
+        let children = node?.features?.[childCollectionName]
         
         //Check if node is unwanted
         let unwanted = true
@@ -54,7 +54,7 @@ function TrimTree(tree,childCollectionName="children"){
                 if(unwanted && node.parent){
                     //If a node should be removed, transfer it's children to the node's parent
                     child.parent = node.parent
-                    node?.parent?.features?.children.push(child)
+                    node?.parent?.features?.[childCollectionName].push(child)
                 }
             }
         }
@@ -62,12 +62,12 @@ function TrimTree(tree,childCollectionName="children"){
         if(unwanted && node.parent){
             //If the node is unwanted, and it is NOT the root node (it has a parent)
             //remove this node from the tree by removing it from it's parent
-            let nodeIndex = node?.parent?.features?.children?.indexOf(node)
+            let nodeIndex = node?.parent?.features?.[childCollectionName]?.indexOf(node)
             if(nodeIndex != undefined){
-                node.parent.features.children.splice(nodeIndex,1)
-                if(node.parent.features.children.length == 0){
+                node.parent.features[childCollectionName].splice(nodeIndex,1)
+                if(node.parent.features[childCollectionName].length == 0){
                     //If there are now no children, delete the children array
-                    delete node.parent.features.children
+                    delete node.parent.features[childCollectionName]
                     stack.push(node.parent)
                 }
                 //trimmedNodes++
@@ -80,7 +80,7 @@ function TrimTree(tree,childCollectionName="children"){
     stack = [tree]
     while(stack.length > 0){
         let node = stack.shift()
-        let children = node?.features?.children
+        let children = node?.features?.[childCollectionName]
         if(children){
             for(let child of children){
                 //If a node has children we need to iterate over them, so add them to stack

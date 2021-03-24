@@ -16,8 +16,8 @@ async function test() {
 
     //Add a feature for "Children", this will be any container type TAG, we add any of these tags to
     //the stack to create a deeply nested document
-    let ChildFeature = new FeatureType(true, "children",[attr_background_color])
-    let childTags = ["MAIN","ASIDE","ARTICLE","HEADER","HTML", "CENTER", "NAV", "BODY", "DIV", "SECTION", "SPAN", "UL", "LI", "TBODY", "TABLE", "TR", "TD", "B"]
+    let ChildFeature = new FeatureType(true, "children",[attr_background_color,attr_color])
+    let childTags = ["MAIN","ASIDE","ARTICLE","HEADER","HTML", "CENTER", "NAV", "BODY", "DIV", "SECTION", "SPAN", "UL", "LI", "TBODY", "TABLE", "TR", "TD", "B","FONT"]
     for(let tag of childTags){
         testScraper.addFeatureType(tag, ChildFeature)
     }
@@ -46,7 +46,7 @@ async function test() {
     testScraper.addFeatureType("IMG", ImageFeature)
     
 
-    let res = await testScraper.scrape('./index.html',true)
+    let res = await testScraper.scrape('https://www.aliexpress.com/')
     fs.writeFileSync('./output.json', JSON.stringify(res, null, 2))
 }
 test()
