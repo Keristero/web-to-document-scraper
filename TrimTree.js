@@ -1,97 +1,94 @@
 function TrimTree(tree,childCollectionName="children"){
-    let stack = [tree]
-    //let trimmedNodes = 0
-    //Give every node an association to it's parent
-    while(stack.length > 0){
-        let node = stack.shift()
-        let children = node?.features?.[childCollectionName]
-        if(!children){
-            continue
-        }
-        for(let child of children){
-            child.parent = node
-            stack.push(child)
-        }
-    }
-
-    //remove unwanted nodes
-    stack = [tree]
-    while(stack.length > 0){
-        let node = stack.shift()
-        let children = node?.features?.[childCollectionName]
-        
-        //Check if node is unwanted
-        let unwanted = true
-
-        //An unwanted node is a node which does not have much going on.
-        //An empty node will atleast have a parent, so we want minimum one more thing than that
-        let requiredAttributes = 2
-        let requiredFeatures = 1
-        if(children){
-            //If a node has children it will have atleast "features" and "children"
-            //so we need to raise the requirements
-            requiredFeatures += 1
-            if(children.length > 1){
-                //If a node has more than one child, it is automatically important enough to stay
+    //Keep iterating until our last iteration trimmed 0 nodes
+    let trimmedNodes = 1
+    while(trimmedNodes > 0){
+        let stack = [tree]
+        let node
+        trimmedNodes = 0
+        //Give every node an association to it's parent
+        while(stack.length > 0){
+            node = stack.shift()
+            for(let featureCollectionName in node.features){
+                for(let feature of node.features[featureCollectionName]){
+                    feature.parent = node
+                    feature.type = featureCollectionName
+                    stack.push(feature)
+                }
+            }
+            let unwanted = true
+    
+            let node_feature_count = countFeatures(node)
+            if(node_feature_count > 1){
                 unwanted = false
             }
-        }
-        //Count features and attributes
-        let attributes = Object.keys(node).length
-        let features = 0
-        if(node.features){
-            requiredAttributes += 1
-            features = Object.keys(node.features).length
-        }
-        if(attributes >= requiredAttributes || features >= requiredFeatures){
-            unwanted = false
-        }
-
-        if(children){
-            for(let child of children){
-                //If a node has children we need to iterate over them, so add them to stack
-                stack.push(child)
-                if(unwanted && node.parent){
-                    //If a node should be removed, transfer it's children to the node's parent
-                    child.parent = node.parent
-                    node?.parent?.features?.[childCollectionName].push(child)
+    
+            if(unwanted && node.parent && node.features){
+                transferFeaturesFromNodeToNode(node,node.parent)
+                if(node?.parent?.features?.[node?.type]){
+                    if(countFeatures(node) == 0){
+                        removeFromArray(node.parent.features[node.type],node)
+                        trimmedNodes++
+                    }
                 }
             }
         }
-
-        if(unwanted && node.parent){
-            //If the node is unwanted, and it is NOT the root node (it has a parent)
-            //remove this node from the tree by removing it from it's parent
-            let nodeIndex = node?.parent?.features?.[childCollectionName]?.indexOf(node)
-            if(nodeIndex != undefined){
-                node.parent.features[childCollectionName].splice(nodeIndex,1)
-                if(node.parent.features[childCollectionName].length == 0){
-                    //If there are now no children, delete the children array
-                    delete node.parent.features[childCollectionName]
-                    stack.push(node.parent)
+    
+        //Now loop over the tree again and remove the circular parent references
+        stack = [tree]
+        while(stack.length > 0){
+            node = stack.shift()
+            for(let featureCollectionName in node.features){
+                for(let feature of node.features[featureCollectionName]){
+                    stack.push(feature)
                 }
-                //trimmedNodes++
-                //stack.push(node.parent)
+            }
+            if(node.parent){
+                delete node.parent
+            }
+            if(node.type){
+                delete node.type
             }
         }
+        console.log(`trimmed ${trimmedNodes} nodes`)
     }
 
-    //Now loop over the tree again and remove the circular parent references
-    stack = [tree]
-    while(stack.length > 0){
-        let node = stack.shift()
-        let children = node?.features?.[childCollectionName]
-        if(children){
-            for(let child of children){
-                //If a node has children we need to iterate over them, so add them to stack
-                stack.push(child)
-            }
-        }
-        delete node.parent
-    }
-
-    //console.log(`trimmed ${trimmedNodes} nodes`)
+    console.log(JSON.stringify(tree))
     return tree
+}
+
+function transferFeaturesFromNodeToNode(nodeA,nodeB){
+    for(let featureCollectionName in nodeA.features){
+        for(let feature of nodeA.features[featureCollectionName]){
+            if(!nodeB?.features?.[featureCollectionName]){
+                nodeB.features[featureCollectionName] = []
+            }
+            nodeB.features[featureCollectionName].push(feature)
+            removeFromArray(nodeA.features[featureCollectionName],feature)
+            if(nodeA.features[featureCollectionName].length == 0){
+                delete nodeA.features[featureCollectionName]
+            }
+        }
+    }
+}
+
+function removeFromArray(array, value) {
+    var idx = array.indexOf(value);
+    if (idx !== -1) {
+        array.splice(idx, 1);
+    }
+    return array;
+}
+
+function countFeatures(node){
+    let count = 0
+    if(node.features){
+        for(let featureCollectionName in node.features){
+            for(let feature of node.features[featureCollectionName]){
+                count++
+            }
+        }
+    }
+    return count
 }
 
 module.exports = TrimTree
