@@ -44,9 +44,6 @@ function cull_unwanted_nodes(document,tag_blacklist,minimum_importance){
         for(let child of node.children){
             queue.push(child)
         }
-        if(node.parent){
-            delete node.parent
-        }
         if(node.wanted){
             delete node.wanted
         }

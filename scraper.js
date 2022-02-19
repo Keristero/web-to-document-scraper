@@ -4,11 +4,11 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 
-async function scrape(){
+async function scraper(url){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setJavaScriptEnabled(true);
-    await page.goto('https://gbatemp.net/');
+    await page.goto(url);
     const result = await page.evaluate(() => {
         function record_attributes(node,element,attribute_names){
             for(let attribute_name of attribute_names){
@@ -32,7 +32,7 @@ async function scrape(){
         }
         function scrape_extra_data(node,element){
             record_attributes_for_tag(node,element,"A",["href"])
-            record_attributes_for_tag(node,element,"IMG",["href","alt"])
+            record_attributes_for_tag(node,element,"IMG",["src","alt"])
             record_style(node,element,'background-color','rgba(0, 0, 0, 0)')
             record_style(node,element,'background-image','none')
         }
@@ -86,4 +86,4 @@ async function scrape(){
     return result
 }
 
-module.exports = {scrape}
+module.exports = scraper
