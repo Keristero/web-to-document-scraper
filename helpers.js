@@ -1,4 +1,4 @@
-function cull_unwanted_nodes(document,tag_blacklist,minimum_importance){
+function cull_unwanted_nodes(document,tag_blacklist,minimum_importance,minimum_children){
     //iterate over document and mark all wanted nodes
     let queue = [document]
     while(queue.length > 0 ){
@@ -11,7 +11,7 @@ function cull_unwanted_nodes(document,tag_blacklist,minimum_importance){
         if(tag_blacklist.includes(node.tag)){
             continue
         }
-        if(node.importance < minimum_importance){
+        if(node.importance < minimum_importance && node.children.length < minimum_children){
             continue
         }
         node.wanted = true

@@ -10,31 +10,32 @@ async function scraper(url){
     await page.setJavaScriptEnabled(true);
     await page.goto(url);
     const result = await page.evaluate(() => {
-        function record_attributes(node,element,attribute_names){
+        function record_attributes(node,element,attribute_names,importance){
             for(let attribute_name of attribute_names){
                 if(element[attribute_name]){
                     node[attribute_name] = element[attribute_name]
-                    node.importance += 1
+                    node.importance += importance
                 }
             }
         }
-        function record_attributes_for_tag(node,element,tag_name,attribute_names){
+        function record_attributes_for_tag(node,element,tag_name,attribute_names,importance){
             if(node.tag == tag_name){
-                record_attributes(node,element,attribute_names)
+                record_attributes(node,element,attribute_names,importance)
             }
         }
-        function record_style(node,element,style_name,default_value_to_ignore){
+        function record_style(node,element,style_name,default_value_to_ignore,importance){
             let style_value = window.getComputedStyle(element,null).getPropertyValue(style_name);  
             if(style_value != default_value_to_ignore){
                 node[style_name] = style_value
-                node.importance += 1
+                node.importance += importance
             }
         }
         function scrape_extra_data(node,element){
-            record_attributes_for_tag(node,element,"A",["href"])
-            record_attributes_for_tag(node,element,"IMG",["src","alt"])
-            record_style(node,element,'background-color','rgba(0, 0, 0, 0)')
-            record_style(node,element,'background-image','none')
+            record_attributes(node,element,"id",1)
+            record_attributes_for_tag(node,element,"A",["href"],1)
+            record_attributes_for_tag(node,element,"IMG",["src","alt"],1)
+            record_style(node,element,'background-color','rgba(0, 0, 0, 0)',1)
+            record_style(node,element,'background-image','none',1)
         }
         function getTextFromElement(element){
             let text = ""
