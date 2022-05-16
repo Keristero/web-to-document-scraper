@@ -5,10 +5,15 @@ puppeteer.use(StealthPlugin())
 
 
 async function scraper(url){
+    console.log('launching browser')
     const browser = await puppeteer.launch();
+    console.log('opening new page')
     const page = await browser.newPage();
+    console.log('enabling js')
     await page.setJavaScriptEnabled(true);
+    console.log('going to url')
     await page.goto(url);
+    console.log('evaluating script')
     const result = await page.evaluate(() => {
         function record_attributes(node,element,attribute_names,importance){
             for(let attribute_name of attribute_names){
@@ -35,7 +40,7 @@ async function scraper(url){
             record_attributes_for_tag(node,element,"A",["href"],1)
             record_attributes_for_tag(node,element,"IMG",["src","alt"],1)
             record_style(node,element,'background-color','rgba(0, 0, 0, 0)',1)
-            record_style(node,element,'background-image','none',1)
+            //record_style(node,element,'background-image','none',1) often causes generation failure with gradients
         }
         function getTextFromElement(element){
             let text = ""
@@ -83,7 +88,9 @@ async function scraper(url){
         }
         return first_node
     });
-    await browser.close();
+    console.log('closing browser')
+    browser.close();
+    console.log('scraping done')
     return result
 }
 
