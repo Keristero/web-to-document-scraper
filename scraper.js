@@ -3,17 +3,21 @@ const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
+const goto_page_options = {
+    timeout:30000,
+    waitUntil:"networkidle2"
+}
 
 async function scraper(url){
-    console.log('launching browser')
+    //console.log('launching browser')
     const browser = await puppeteer.launch();
-    console.log('opening new page')
+    //console.log('opening new page')
     const page = await browser.newPage();
-    console.log('enabling js')
+    //console.log('enabling js')
     await page.setJavaScriptEnabled(true);
-    console.log('going to url')
-    await page.goto(url);
-    console.log('evaluating script')
+    //console.log('going to url')
+    await page.goto(url,goto_page_options);
+    //console.log('evaluating script')
     const result = await page.evaluate(() => {
         function record_attributes(node,element,attribute_names,importance){
             for(let attribute_name of attribute_names){
@@ -88,9 +92,9 @@ async function scraper(url){
         }
         return first_node
     });
-    console.log('closing browser')
+    //console.log('closing browser')
     browser.close();
-    console.log('scraping done')
+    //console.log('scraping done')
     return result
 }
 
